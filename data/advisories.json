@@ -1,0 +1,235 @@
+{
+  "disclaimer": "Prototype IPM guidance. Not a pesticide prescription. Follow locally approved recommendations and product labels.",
+  "fallback": {
+    "immediate_action": "Inspect several plants in different parts of the field and note how fast symptoms are spreading.",
+    "cultural_control": "Improve field sanitation, manage crop residue, and avoid practices that keep foliage wet for long periods.",
+    "mechanical_control": "Remove heavily affected plant parts where practical and dispose of them away from the crop.",
+    "biological_control": "Ask the local extension officer about locally recommended biological options.",
+    "monitoring": "Re-check the field every 2–3 days and keep a simple record of new spots or pests.",
+    "chemical_control_category": "Use chemical products only if locally registered for this crop/problem and only when intervention is justified. Do not invent a dose or brand.",
+    "safety_notes": "Use PPE, follow the product label, and observe pre-harvest intervals. Keep children and livestock away during application.",
+    "when_to_contact_officer": "Contact the agriculture extension officer if the problem is spreading rapidly or the diagnosis is uncertain."
+  },
+  "items": {
+    "tomato_early_blight": {
+      "immediate_action": "Inspect nearby plants for brown concentric leaf spots. Remove severely affected lower leaves if recommended locally.",
+      "cultural_control": "Avoid overhead watering late in the day. Improve air flow. Rotate away from tomato/potato where possible.",
+      "mechanical_control": "Remove and destroy heavily diseased foliage; do not compost if local guidance advises against it.",
+      "biological_control": "Ask about locally approved bio-fungicide options; do not substitute unverified products.",
+      "monitoring": "Check lower leaves twice a week during humid weather.",
+      "chemical_control_category": "If pressure is high, use only locally registered protectant/systemic products for early blight as per label.",
+      "safety_notes": "Never mix products without label support. Observe PHI. This app does not recommend a brand or dose.",
+      "when_to_contact_officer": "Contact extension if fruit lesions appear or several rows are affected."
+    },
+    "tomato_late_blight": {
+      "immediate_action": "Treat as high priority in cool, wet weather. Inspect the whole block the same day.",
+      "cultural_control": "Reduce leaf wetness. Avoid working in wet fields. Destroy volunteer potato/tomato plants.",
+      "mechanical_control": "Remove badly infected plants to slow spread if practical.",
+      "biological_control": "Biological options are limited; seek local specialist advice.",
+      "monitoring": "Walk the field after rain. Look for water-soaked lesions and white growth on leaf undersides.",
+      "chemical_control_category": "Late blight may justify timely use of locally registered products. Follow label only.",
+      "safety_notes": "PPE and label restrictions are mandatory. Do not use leftover unlabelled chemicals.",
+      "when_to_contact_officer": "Notify the officer immediately if multiple farms in the village show similar symptoms."
+    },
+    "tomato_healthy": {
+      "immediate_action": "No disease action required from this image. Continue routine scouting.",
+      "cultural_control": "Maintain balanced nutrition and avoid prolonged leaf wetness.",
+      "mechanical_control": "Not required.",
+      "biological_control": "Not required.",
+      "monitoring": "Scout weekly; increase frequency in humid weather.",
+      "chemical_control_category": "Do not spray preventively without a local recommendation.",
+      "safety_notes": "Avoid unnecessary pesticide use.",
+      "when_to_contact_officer": "Contact extension if new spots appear suddenly after storms."
+    },
+    "potato_early_blight": {
+      "immediate_action": "Inspect older leaves for target-like spots. Note irrigation timing.",
+      "cultural_control": "Avoid water stress. Hill soil to protect tubers. Rotate crops.",
+      "mechanical_control": "Remove severely blighted haulm if locally advised.",
+      "biological_control": "Discuss bio-fungicide options with the KVK/extension office.",
+      "monitoring": "Check weekly from vegetative stage onward.",
+      "chemical_control_category": "Use only registered early-blight products if thresholds and weather justify it.",
+      "safety_notes": "Follow label PPE and harvest waiting periods.",
+      "when_to_contact_officer": "Call if lesions move onto stems or many plants yellow quickly."
+    },
+    "potato_late_blight": {
+      "immediate_action": "This is a fast-spreading disease in wet weather. Scout the entire field today.",
+      "cultural_control": "Destroy cull piles and volunteers. Avoid irrigation that keeps leaves wet overnight.",
+      "mechanical_control": "Roguing of badly infected plants may slow local spread.",
+      "biological_control": "Limited; seek local advice.",
+      "monitoring": "Daily checks during cool rainy spells.",
+      "chemical_control_category": "May require locally registered late-blight products used strictly as labelled.",
+      "safety_notes": "Do not share unverified spray schedules. No dose is provided here.",
+      "when_to_contact_officer": "Report village-level outbreaks so neighbours can scout too."
+    },
+    "potato_healthy": {
+      "immediate_action": "Continue good crop care. No treatment indicated from this image.",
+      "cultural_control": "Keep drainage good and avoid prolonged leaf wetness.",
+      "mechanical_control": "Not required.",
+      "biological_control": "Not required.",
+      "monitoring": "Scout after rain events.",
+      "chemical_control_category": "No spray indicated.",
+      "safety_notes": "Avoid calendar spraying.",
+      "when_to_contact_officer": "Contact if water-soaked lesions appear."
+    },
+    "cotton_pink_bollworm": {
+      "immediate_action": "Inspect squares and bolls. Look for exit holes and stained lint.",
+      "cultural_control": "Timely sowing, clean-up of leftover bolls, and destruction of crop residue after harvest.",
+      "mechanical_control": "Collect and destroy infested bolls where practical. Use pheromone monitoring if available locally.",
+      "biological_control": "Ask about locally recommended biocontrol / ETL-based IPM packages.",
+      "monitoring": "Check 20 plants in a zigzag walk. Record damaged fruiting bodies.",
+      "chemical_control_category": "Apply insecticides only if local ETL is crossed and only with registered products for this pest.",
+      "safety_notes": "Protect pollinators. Do not spray during peak bee activity. No brand or dose is given here.",
+      "when_to_contact_officer": "Contact extension if damage is rising across several fields."
+    },
+    "cotton_aphids": {
+      "immediate_action": "Check undersides of young leaves for colonies and sticky honeydew.",
+      "cultural_control": "Avoid excessive nitrogen. Conserve natural enemies by not spraying unnecessarily.",
+      "mechanical_control": "A strong water jet can dislodge small colonies on young plants if water is available.",
+      "biological_control": "Ladybird beetles and other predators often suppress aphids. Ask about local biocontrol options.",
+      "monitoring": "Inspect tender shoots twice a week.",
+      "chemical_control_category": "Treat only if populations exceed local ETL. Prefer selective options recommended locally.",
+      "safety_notes": "Broad-spectrum sprays can worsen outbreaks by killing predators.",
+      "when_to_contact_officer": "Call if sooty mould is covering large canopy areas."
+    },
+    "cotton_whitefly": {
+      "immediate_action": "Inspect lower leaf surfaces. Note yellowing and sticky residue.",
+      "cultural_control": "Avoid continuous cotton–cotton cropping. Manage weeds that host whitefly.",
+      "mechanical_control": "Yellow sticky traps can help monitoring, not full control.",
+      "biological_control": "Protect parasitoids. Ask KVK for locally recommended biological tools.",
+      "monitoring": "Count adults on lower leaves in the morning.",
+      "chemical_control_category": "If ETL is crossed, use only registered products and rotate modes of action as locally advised.",
+      "safety_notes": "Whitefly resistance is common; do not repeat the same product blindly. No dose listed here.",
+      "when_to_contact_officer": "Report if neighbouring fields also show sudden increase."
+    },
+    "cotton_healthy": {
+      "immediate_action": "No pest action indicated. Continue routine scouting.",
+      "cultural_control": "Keep field borders clean and avoid unnecessary sprays.",
+      "mechanical_control": "Not required.",
+      "biological_control": "Conserve beneficial insects.",
+      "monitoring": "Weekly square/boll inspection.",
+      "chemical_control_category": "No spray indicated.",
+      "safety_notes": "Preventive insecticide use is discouraged.",
+      "when_to_contact_officer": "Contact if sticky leaves or square shedding increases."
+    },
+    "maize_fall_armyworm": {
+      "immediate_action": "Inspect 10–20 plants in representative areas, especially the whorl.",
+      "cultural_control": "Timely sowing in windows recommended locally. Destroy crop residues after harvest.",
+      "mechanical_control": "Hand-crush egg masses and young larvae where labour allows. Remove heavily infested plants if practical.",
+      "biological_control": "Consider locally recommended biological control options (e.g. approved biopesticides) — ask the extension officer.",
+      "monitoring": "Look for egg masses, window-pane feeding, and frass in the whorl twice a week.",
+      "chemical_control_category": "Use only locally registered products and label-approved directions when intervention thresholds justify it.",
+      "safety_notes": "Use appropriate PPE. Observe label restrictions and pre-harvest intervals. No brand or dose is provided.",
+      "when_to_contact_officer": "Contact the agriculture extension officer if infestation is spreading rapidly."
+    },
+    "maize_leaf_blight": {
+      "immediate_action": "Note how far lesions have moved up the plant. Check hybrids in adjacent plots.",
+      "cultural_control": "Crop rotation and residue management. Avoid dense planting that keeps leaves wet.",
+      "mechanical_control": "Not usually practical at field scale; focus on sanitation at small-plot level.",
+      "biological_control": "Ask about locally approved bio-fungicides.",
+      "monitoring": "Scout weekly from vegetative stage, especially after rain.",
+      "chemical_control_category": "Fungicide use only if locally recommended for this disease and crop stage.",
+      "safety_notes": "Follow label. No concentration or mixing instructions are given here.",
+      "when_to_contact_officer": "Call if lesions reach the ear leaf before grain fill."
+    },
+    "maize_healthy": {
+      "immediate_action": "Continue standard scouting. No treatment indicated.",
+      "cultural_control": "Maintain balanced fertility and good drainage.",
+      "mechanical_control": "Not required.",
+      "biological_control": "Not required.",
+      "monitoring": "Check whorls for armyworm after storms.",
+      "chemical_control_category": "No spray indicated.",
+      "safety_notes": "Avoid unnecessary pesticide use.",
+      "when_to_contact_officer": "Contact if ragged whorl damage appears."
+    },
+    "rice_blast": {
+      "immediate_action": "Inspect leaves and necks. Note water management and nitrogen use.",
+      "cultural_control": "Avoid excess nitrogen. Maintain recommended water levels. Use resistant varieties if available locally.",
+      "mechanical_control": "Not usually practical; remove severely infected nursery seedlings if spotted early.",
+      "biological_control": "Discuss locally recommended biocontrol / bio-fungicide options with extension staff.",
+      "monitoring": "Watch for diamond-shaped leaf spots after cloudy, humid weather.",
+      "chemical_control_category": "If blast is increasing, use only registered rice products as per label and local advisory.",
+      "safety_notes": "Protect water bodies. Do not apply unlabelled chemicals to paddy water.",
+      "when_to_contact_officer": "Report neck blast risk at heading immediately."
+    },
+    "rice_brown_spot": {
+      "immediate_action": "Check whether plants are nutrient-stressed, especially potassium and other locally deficient nutrients.",
+      "cultural_control": "Balanced fertilization and good drainage. Use healthy seed.",
+      "mechanical_control": "Not typically required.",
+      "biological_control": "Ask about seed treatment options recommended locally.",
+      "monitoring": "Compare low-lying vs well-drained parts of the field.",
+      "chemical_control_category": "Chemical use only if local guidance supports it after correcting nutrition/water issues.",
+      "safety_notes": "Brown spot is often linked to crop stress — do not jump to pesticides first.",
+      "when_to_contact_officer": "Contact if many grains are discoloured."
+    },
+    "rice_healthy": {
+      "immediate_action": "No disease action indicated. Keep routine nursery/field checks.",
+      "cultural_control": "Balanced nutrients and recommended water management.",
+      "mechanical_control": "Not required.",
+      "biological_control": "Not required.",
+      "monitoring": "Scout after cloudy humid spells.",
+      "chemical_control_category": "No spray indicated.",
+      "safety_notes": "Avoid calendar spraying in paddy.",
+      "when_to_contact_officer": "Call if sudden leaf spots appear at tillering or heading."
+    },
+    "wheat_rust": {
+      "immediate_action": "Inspect leaves for rust pustules. Note wind direction from neighbouring fields.",
+      "cultural_control": "Prefer locally recommended varieties. Avoid late sowing if that is a local risk factor.",
+      "mechanical_control": "Not practical at field scale.",
+      "biological_control": "Limited; rely on variety and timely local advisories.",
+      "monitoring": "Scout weekly from stem elongation. Rust can increase quickly.",
+      "chemical_control_category": "If locally recommended at this growth stage, use only registered products as labelled.",
+      "safety_notes": "No dose or brand is provided. Observe harvest intervals.",
+      "when_to_contact_officer": "Report if pustules are widespread so the district can be alerted."
+    },
+    "wheat_powdery_mildew": {
+      "immediate_action": "Check dense canopies and shaded parts of the field.",
+      "cultural_control": "Avoid excess nitrogen. Improve airflow with recommended spacing.",
+      "mechanical_control": "Not usually practical.",
+      "biological_control": "Ask extension about locally approved options.",
+      "monitoring": "Look for white powdery growth on lower leaves.",
+      "chemical_control_category": "Treat only if local thresholds and crop stage justify a registered product.",
+      "safety_notes": "Follow label PPE. No mixing instructions here.",
+      "when_to_contact_officer": "Contact if mildew reaches the flag leaf."
+    },
+    "wheat_healthy": {
+      "immediate_action": "Continue routine scouting. No treatment indicated.",
+      "cultural_control": "Balanced fertility and recommended sowing time.",
+      "mechanical_control": "Not required.",
+      "biological_control": "Not required.",
+      "monitoring": "Weekly rust watch during cool humid periods.",
+      "chemical_control_category": "No spray indicated.",
+      "safety_notes": "Avoid unnecessary fungicide use.",
+      "when_to_contact_officer": "Call if orange/yellow pustules appear."
+    },
+    "soybean_mosaic_virus": {
+      "immediate_action": "Look for mosaic patterns and check for aphids that can spread viruses.",
+      "cultural_control": "Use healthy seed. Manage weeds. Avoid working from infected to healthy plots.",
+      "mechanical_control": "Rogue severely affected plants in small plots if practical.",
+      "biological_control": "Conserve aphid predators. Virus itself is not treated with insecticide as a cure.",
+      "monitoring": "Walk rows weekly. Note patchy yellow mosaic.",
+      "chemical_control_category": "Insecticides do not cure virus. Aphid management only if locally advised for vector control.",
+      "safety_notes": "Do not spray hoping to 'kill the virus'. Seek expert confirmation.",
+      "when_to_contact_officer": "Request expert/lab confirmation — virus symptoms can resemble nutrient issues."
+    },
+    "soybean_rust": {
+      "immediate_action": "Inspect lower leaves for small pustules. Note recent humidity and rain.",
+      "cultural_control": "Avoid dense canopies if possible. Follow local sowing guidance.",
+      "mechanical_control": "Not practical at field scale.",
+      "biological_control": "Ask about locally approved bio-fungicides.",
+      "monitoring": "Scout lower canopy after humid nights.",
+      "chemical_control_category": "If rust is confirmed and local advisory supports it, use registered products as labelled.",
+      "safety_notes": "No brand, dose, or tank-mix is provided.",
+      "when_to_contact_officer": "Contact if pustules are increasing quickly during flowering/pod fill."
+    },
+    "soybean_healthy": {
+      "immediate_action": "No disease action indicated. Continue scouting.",
+      "cultural_control": "Balanced nutrition and weed management.",
+      "mechanical_control": "Not required.",
+      "biological_control": "Not required.",
+      "monitoring": "Weekly checks during flowering.",
+      "chemical_control_category": "No spray indicated.",
+      "safety_notes": "Avoid unnecessary pesticide use.",
+      "when_to_contact_officer": "Call if mosaic or rust-like pustules appear."
+    }
+  }
+}

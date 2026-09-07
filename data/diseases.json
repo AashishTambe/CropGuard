@@ -1,0 +1,72 @@
+{
+  "crops": {
+    "tomato": {
+      "label": "Tomato",
+      "varieties": ["Generic/Unknown", "Local variety", "Hybrid"],
+      "classes": [
+        {"id": "tomato_early_blight", "name": "Early Blight", "kind": "disease"},
+        {"id": "tomato_late_blight", "name": "Late Blight", "kind": "disease"},
+        {"id": "tomato_healthy", "name": "Healthy", "kind": "healthy"}
+      ]
+    },
+    "potato": {
+      "label": "Potato",
+      "varieties": ["Generic/Unknown", "Local variety", "Hybrid"],
+      "classes": [
+        {"id": "potato_early_blight", "name": "Early Blight", "kind": "disease"},
+        {"id": "potato_late_blight", "name": "Late Blight", "kind": "disease"},
+        {"id": "potato_healthy", "name": "Healthy", "kind": "healthy"}
+      ]
+    },
+    "cotton": {
+      "label": "Cotton",
+      "varieties": ["Generic/Unknown", "Bt Cotton", "Other"],
+      "classes": [
+        {"id": "cotton_pink_bollworm", "name": "Pink Bollworm", "kind": "pest"},
+        {"id": "cotton_aphids", "name": "Aphids", "kind": "pest"},
+        {"id": "cotton_whitefly", "name": "Whitefly", "kind": "pest"},
+        {"id": "cotton_healthy", "name": "Healthy", "kind": "healthy"}
+      ]
+    },
+    "maize": {
+      "label": "Maize",
+      "varieties": ["Generic/Unknown", "Local variety", "Hybrid"],
+      "classes": [
+        {"id": "maize_fall_armyworm", "name": "Fall Armyworm", "kind": "pest"},
+        {"id": "maize_leaf_blight", "name": "Leaf Blight", "kind": "disease"},
+        {"id": "maize_healthy", "name": "Healthy", "kind": "healthy"}
+      ]
+    },
+    "rice": {
+      "label": "Rice",
+      "varieties": ["Generic/Unknown", "Local variety", "Hybrid"],
+      "classes": [
+        {"id": "rice_blast", "name": "Blast", "kind": "disease"},
+        {"id": "rice_brown_spot", "name": "Brown Spot", "kind": "disease"},
+        {"id": "rice_healthy", "name": "Healthy", "kind": "healthy"}
+      ]
+    },
+    "wheat": {
+      "label": "Wheat",
+      "varieties": ["Generic/Unknown", "Local variety", "Hybrid"],
+      "classes": [
+        {"id": "wheat_rust", "name": "Rust", "kind": "disease"},
+        {"id": "wheat_powdery_mildew", "name": "Powdery Mildew", "kind": "disease"},
+        {"id": "wheat_healthy", "name": "Healthy", "kind": "healthy"}
+      ]
+    },
+    "soybean": {
+      "label": "Soybean",
+      "varieties": ["Generic/Unknown", "Local variety", "Hybrid"],
+      "classes": [
+        {"id": "soybean_mosaic_virus", "name": "Mosaic Virus", "kind": "disease"},
+        {"id": "soybean_rust", "name": "Rust", "kind": "disease"},
+        {"id": "soybean_healthy", "name": "Healthy", "kind": "healthy"}
+      ]
+    }
+  },
+  "confidence_thresholds": {
+    "high": 0.85,
+    "moderate": 0.60
+  }
+}

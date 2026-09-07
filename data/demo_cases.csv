@@ -1,0 +1,49 @@
+case_id,date,crop,disease,disease_id,village,district,latitude,longitude,severity,status,confirmed_by_expert,confidence,risk_score,growth_stage
+CG-2026-0001,2026-08-18,tomato,Early Blight,tomato_early_blight,Niphad,Nashik,20.0793,74.1109,moderate,expert_confirmed,1,0.88,72,Fruiting
+CG-2026-0002,2026-08-20,tomato,Late Blight,tomato_late_blight,Dindori,Nashik,20.2043,73.8331,high,expert_confirmed,1,0.91,86,Fruiting
+CG-2026-0003,2026-08-22,tomato,Early Blight,tomato_early_blight,Sinnar,Nashik,19.8450,74.0006,moderate,expert_confirmed,1,0.79,68,Flowering
+CG-2026-0004,2026-08-24,tomato,Late Blight,tomato_late_blight,Igatpuri,Nashik,19.6950,73.5626,high,suspected,0,0.74,81,Fruiting
+CG-2026-0005,2026-08-26,tomato,Early Blight,tomato_early_blight,Yeola,Nashik,20.0424,74.4893,low,pending_review,0,0.54,61,Vegetative
+CG-2026-0006,2026-08-28,maize,Fall Armyworm,maize_fall_armyworm,Malegaon,Nashik,20.5570,74.5080,high,expert_confirmed,1,0.86,77,Vegetative
+CG-2026-0007,2026-08-19,wheat,Healthy,wheat_healthy,Peth,Nashik,20.2667,73.5500,low,rejected,1,0.41,22,Flowering
+CG-2026-0008,2026-08-21,potato,Late Blight,potato_late_blight,Khed,Pune,18.8167,73.8833,high,expert_confirmed,1,0.90,84,Vegetative
+CG-2026-0009,2026-08-23,tomato,Early Blight,tomato_early_blight,Baramati,Pune,18.1517,74.5778,moderate,expert_confirmed,1,0.83,70,Fruiting
+CG-2026-0010,2026-08-25,potato,Healthy,potato_healthy,Junnar,Pune,19.2081,73.8750,low,suspected,0,0.62,35,Vegetative
+CG-2026-0011,2026-08-27,wheat,Rust,wheat_rust,Indapur,Pune,18.1170,75.0260,moderate,lab_referred,0,0.57,64,Flowering
+CG-2026-0012,2026-08-29,soybean,Rust,soybean_rust,Daund,Pune,18.4630,74.5800,moderate,expert_confirmed,1,0.81,66,Flowering
+CG-2026-0013,2026-08-30,tomato,Late Blight,tomato_late_blight,Haveli,Pune,18.5204,73.8567,high,pending_review,0,0.58,79,Fruiting
+CG-2026-0014,2026-08-18,cotton,Pink Bollworm,cotton_pink_bollworm,Kalmeshwar,Nagpur,21.2320,78.9110,moderate,expert_confirmed,1,0.84,71,Flowering
+CG-2026-0015,2026-08-20,cotton,Aphids,cotton_aphids,Katol,Nagpur,21.2730,78.5860,low,suspected,0,0.71,48,Vegetative
+CG-2026-0016,2026-08-22,cotton,Whitefly,cotton_whitefly,Saoner,Nagpur,21.3850,78.9200,moderate,expert_confirmed,1,0.80,63,Flowering
+CG-2026-0017,2026-08-24,soybean,Mosaic Virus,soybean_mosaic_virus,Umred,Nagpur,20.8480,79.3240,moderate,lab_referred,0,0.52,58,Vegetative
+CG-2026-0018,2026-08-26,rice,Blast,rice_blast,Ramtek,Nagpur,21.3950,79.3270,high,expert_confirmed,1,0.87,80,Flowering
+CG-2026-0019,2026-08-28,maize,Leaf Blight,maize_leaf_blight,Parseoni,Nagpur,21.3820,79.1480,moderate,suspected,0,0.69,60,Vegetative
+CG-2026-0020,2026-08-19,cotton,Pink Bollworm,cotton_pink_bollworm,Achalpur,Amravati,21.2570,77.5080,high,expert_confirmed,1,0.89,82,Fruiting
+CG-2026-0021,2026-08-21,cotton,Whitefly,cotton_whitefly,Daryapur,Amravati,20.9280,77.3260,moderate,expert_confirmed,1,0.77,67,Flowering
+CG-2026-0022,2026-08-23,soybean,Rust,soybean_rust,Morshi,Amravati,21.3400,78.0130,low,pending_review,0,0.49,55,Vegetative
+CG-2026-0023,2026-08-25,cotton,Aphids,cotton_aphids,Warud,Amravati,21.4710,78.2680,moderate,suspected,0,0.73,59,Vegetative
+CG-2026-0024,2026-08-27,cotton,Healthy,cotton_healthy,Chandur Bazar,Amravati,21.2380,77.7470,low,rejected,1,0.44,18,Maturity
+CG-2026-0025,2026-08-29,soybean,Mosaic Virus,soybean_mosaic_virus,Anjangaon,Amravati,21.1630,77.3090,moderate,lab_referred,0,0.56,62,Flowering
+CG-2026-0026,2026-08-18,soybean,Rust,soybean_rust,Udgir,Latur,18.3930,77.1170,moderate,expert_confirmed,1,0.82,69,Flowering
+CG-2026-0027,2026-08-20,maize,Healthy,maize_healthy,Nilanga,Latur,18.1270,76.7530,low,suspected,0,0.61,33,Vegetative
+CG-2026-0028,2026-08-22,soybean,Rust,soybean_rust,Ausa,Latur,18.2470,76.4990,high,expert_confirmed,1,0.85,76,Fruiting
+CG-2026-0029,2026-08-24,cotton,Pink Bollworm,cotton_pink_bollworm,Chakur,Latur,18.5130,76.8750,moderate,pending_review,0,0.55,64,Flowering
+CG-2026-0030,2026-08-26,soybean,Healthy,soybean_healthy,Ahmedpur,Latur,18.7060,76.9360,low,suspected,0,0.66,29,Vegetative
+CG-2026-0031,2026-08-28,soybean,Mosaic Virus,soybean_mosaic_virus,Renapur,Latur,18.5260,76.5920,moderate,lab_referred,0,0.48,57,Vegetative
+CG-2026-0032,2026-08-19,wheat,Healthy,wheat_healthy,Pandharpur,Solapur,17.6790,75.3310,low,rejected,1,0.39,21,Fruiting
+CG-2026-0033,2026-08-21,maize,Healthy,maize_healthy,Barshi,Solapur,18.2340,75.6920,low,suspected,0,0.64,31,Vegetative
+CG-2026-0034,2026-08-23,wheat,Powdery Mildew,wheat_powdery_mildew,Akkalkot,Solapur,17.5270,76.2060,moderate,expert_confirmed,1,0.78,65,Flowering
+CG-2026-0035,2026-08-25,wheat,Powdery Mildew,wheat_powdery_mildew,Mangalvedha,Solapur,17.5160,75.4510,moderate,pending_review,0,0.53,44,Fruiting
+CG-2026-0036,2026-08-27,maize,Fall Armyworm,maize_fall_armyworm,Sangola,Solapur,17.4390,75.1930,high,expert_confirmed,1,0.88,83,Vegetative
+CG-2026-0037,2026-08-29,wheat,Rust,wheat_rust,Mohol,Solapur,17.8100,75.6650,moderate,suspected,0,0.70,61,Flowering
+CG-2026-0038,2026-08-18,rice,Healthy,rice_healthy,Hatkanangale,Kolhapur,16.7450,74.4230,low,suspected,0,0.67,28,Maturity
+CG-2026-0039,2026-08-20,rice,Brown Spot,rice_brown_spot,Panhala,Kolhapur,16.8120,74.1080,moderate,expert_confirmed,1,0.81,68,Vegetative
+CG-2026-0040,2026-08-22,rice,Blast,rice_blast,Radhanagari,Kolhapur,16.4130,73.9960,high,expert_confirmed,1,0.86,79,Flowering
+CG-2026-0041,2026-08-24,soybean,Rust,soybean_rust,Kagal,Kolhapur,16.5770,74.3150,moderate,pending_review,0,0.59,63,Flowering
+CG-2026-0042,2026-08-26,rice,Healthy,rice_healthy,Shirol,Kolhapur,16.7330,74.6000,low,rejected,1,0.42,19,Maturity
+CG-2026-0043,2026-08-28,rice,Blast,rice_blast,Gaganbawada,Kolhapur,16.5480,73.8410,high,lab_referred,0,0.51,74,Flowering
+CG-2026-0044,2026-09-01,tomato,Late Blight,tomato_late_blight,Nashik,Nashik,19.9975,73.7898,high,expert_confirmed,1,0.92,88,Fruiting
+CG-2026-0045,2026-09-02,tomato,Early Blight,tomato_early_blight,Nashik,Nashik,19.9901,73.8012,moderate,expert_confirmed,1,0.84,75,Fruiting
+CG-2026-0046,2026-09-03,tomato,Late Blight,tomato_late_blight,Niphad,Nashik,20.0850,74.1180,high,suspected,0,0.76,85,Fruiting
+CG-2026-0047,2026-09-04,maize,Fall Armyworm,maize_fall_armyworm,Malegaon,Nashik,20.5530,74.5010,high,pending_review,0,0.57,80,Vegetative
+CG-2026-0048,2026-09-05,cotton,Pink Bollworm,cotton_pink_bollworm,Achalpur,Amravati,21.2600,77.5120,high,expert_confirmed,1,0.90,84,Fruiting

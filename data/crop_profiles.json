@@ -1,0 +1,76 @@
+{
+  "_comment": "Prototype assumptions only — not scientifically validated variety ratings. Edit locally with agronomist input.",
+  "growth_stage_risk": {
+    "Seedling": 0.55,
+    "Vegetative": 0.65,
+    "Flowering": 0.85,
+    "Fruiting": 0.90,
+    "Maturity": 0.70
+  },
+  "soil": {
+    "moisture": {
+      "Unknown": 0.0,
+      "Dry": -0.05,
+      "Adequate": 0.0,
+      "Wet": 0.12,
+      "Waterlogged": 0.18
+    },
+    "drainage": {
+      "Unknown": 0.0,
+      "Good": -0.04,
+      "Moderate": 0.04,
+      "Poor": 0.12
+    },
+    "type": {
+      "Unknown": 0.0,
+      "Black cotton": 0.04,
+      "Red": 0.02,
+      "Alluvial": 0.03,
+      "Laterite": 0.02,
+      "Sandy": -0.02
+    },
+    "ph": {
+      "Unknown": 0.0,
+      "Acidic (<6.5)": 0.04,
+      "Neutral (6.5-7.5)": 0.0,
+      "Alkaline (>7.5)": 0.03
+    }
+  },
+  "crops": {
+    "tomato": {
+      "Generic/Unknown": {"susceptibility": 1.0},
+      "Local variety": {"susceptibility": 1.05},
+      "Hybrid": {"susceptibility": 0.85}
+    },
+    "potato": {
+      "Generic/Unknown": {"susceptibility": 1.0},
+      "Local variety": {"susceptibility": 1.08},
+      "Hybrid": {"susceptibility": 0.88}
+    },
+    "cotton": {
+      "Generic/Unknown": {"susceptibility": 1.0},
+      "Bt Cotton": {"susceptibility": 0.82},
+      "Other": {"susceptibility": 1.05}
+    },
+    "maize": {
+      "Generic/Unknown": {"susceptibility": 1.0},
+      "Local variety": {"susceptibility": 1.06},
+      "Hybrid": {"susceptibility": 0.90}
+    },
+    "rice": {
+      "Generic/Unknown": {"susceptibility": 1.0},
+      "Local variety": {"susceptibility": 1.04},
+      "Hybrid": {"susceptibility": 0.92}
+    },
+    "wheat": {
+      "Generic/Unknown": {"susceptibility": 1.0},
+      "Local variety": {"susceptibility": 1.05},
+      "Hybrid": {"susceptibility": 0.90}
+    },
+    "soybean": {
+      "Generic/Unknown": {"susceptibility": 1.0},
+      "Local variety": {"susceptibility": 1.04},
+      "Hybrid": {"susceptibility": 0.90}
+    }
+  }
+}
