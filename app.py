@@ -79,3 +79,21 @@ for col, (num, title, body) in zip(cols, steps):
         st.markdown(f'<div class="cg-card"><div class="cg-eyebrow">{num}</div><h3>{title}</h3><p>{body}</p></div>', unsafe_allow_html=True)
 
 st.caption("CropGuard is decision support. Confirm uncertain cases with a qualified agricultural expert or laboratory.")
+
+
+# Vercel detects Python functions through a top-level WSGI/ASGI callable.
+# The full interactive app remains Streamlit-first and is launched locally with
+# `streamlit run app.py`; this callable keeps Vercel's Python build contract explicit.
+def app(environ, start_response):
+    body = (
+        "CropGuard is a Streamlit application. "
+        "Run it with `streamlit run app.py` or deploy it on a Streamlit host."
+    ).encode("utf-8")
+    start_response(
+        "200 OK",
+        [
+            ("Content-Type", "text/plain; charset=utf-8"),
+            ("Content-Length", str(len(body))),
+        ],
+    )
+    return [body]
