@@ -22,10 +22,22 @@ issues = len(cases) - len(healthy)
 health_score = round(100 * len(healthy) / len(cases)) if len(cases) else 0
 weather = demo_weather("Nashik")
 
+current_hour = datetime.now().hour
+
+if 5 <= current_hour < 12:
+    greeting = "Good Morning, Farm Hero"
+elif 12 <= current_hour < 17:
+    greeting = "Good Afternoon, Farm Hero"
+elif 17 <= current_hour < 21:
+    greeting = "Good Evening, Farm Hero"
+else:
+    greeting = "Good Night, Farm Hero"
+
 st.markdown(
-    '<div class="cg-hero"><div><div class="cg-eyebrow">SMART CROP PROTECTION</div>'
-    '<h1>Good morning, farmer</h1><p>See your crop health at a glance and scan a leaf when something looks different.</p></div>'
-    '<div class="cg-hero-mark">CG</div></div>', unsafe_allow_html=True
+    f'<div class="cg-hero"><div class="cg-eyebrow">SMART CROP PROTECTION</div>'
+    f'<h1>{greeting}</h1>'
+    f'<p>See your crop health at a glance and scan a leaf when something looks different.</p></div>',
+    unsafe_allow_html=True
 )
 st.info(t(L, "simulated"))
 
