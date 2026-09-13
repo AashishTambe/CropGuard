@@ -1,98 +1,81 @@
-"""CropGuard AI — home landing page."""
+"""CropGuard farmer-first home dashboard."""
 from __future__ import annotations
+
+from datetime import datetime
 
 import streamlit as st
 
-from database import kpi_counts, learning_loop_stats
+from database import kpi_counts, list_cases
 from services.i18n import t
-from utils.ui import inject_css, lang, metric_card, sidebar_chrome
+from services.weather import demo_weather
+from utils.helpers import crop_label
+from utils.ui import inject_css, lang, metric_card, sidebar_chrome, status_pill
 
-st.set_page_config(
-    page_title="CropGuard AI",
-    page_icon="🌱",
-    layout="wide",
-    initial_sidebar_state="expanded",
-)
-
+st.set_page_config(page_title="CropGuard · Smart crop protection", page_icon="🌱", layout="wide", initial_sidebar_state="expanded")
 sidebar_chrome()
 inject_css()
 L = lang()
 
-st.markdown(
-    f"""
-    <div class="cg-banner">
-      <h1>🌱 {t(L, "app_name")}</h1>
-      <p>{t(L, "subtitle")}</p>
-      <p><b>{t(L, "tagline")}</b></p>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+cases = list_cases()
+healthy = cases[cases["disease_id"].astype(str).str.contains("healthy", case=False, na=False)] if not cases.empty else cases
+issues = len(cases) - len(healthy)
+health_score = round(100 * len(healthy) / len(cases)) if len(cases) else 0
+weather = demo_weather("Nashik")
 
+st.markdown(
+    '<div class="cg-hero"><div><div class="cg-eyebrow">SMART CROP PROTECTION</div>'
+    '<h1>Good morning, farmer</h1><p>See your crop health at a glance and scan a leaf when something looks different.</p></div>'
+    '<div class="cg-hero-mark">CG</div></div>', unsafe_allow_html=True
+)
 st.info(t(L, "simulated"))
 
-k = kpi_counts()
+hero_left, hero_right = st.columns((1.35, 1), gap="large")
+with hero_left:
+    st.markdown("### Your farm conditions")
+    st.markdown(f'<div class="cg-location"><span class="cg-location-dot">●</span><div><b>Nashik, Maharashtra</b><br><span>Approximate demo location · updated {datetime.now().strftime("%H:%M")}</span></div></div>', unsafe_allow_html=True)
+    w1, w2, w3, w4 = st.columns(4)
+    w1.metric("Temperature", f"{weather['temperature_c']:.0f}°C")
+    w2.metric("Humidity", f"{weather['humidity']:.0f}%")
+    w3.metric("Wind", f"{weather['wind_kmh']:.0f} km/h")
+    w4.metric("Rainfall", f"{weather['rainfall_mm']:.1f} mm")
+    st.caption(f"{weather['condition']} · Open-Meteo / demo fallback")
+with hero_right:
+    st.markdown('<div class="cg-cta-card"><div class="cg-eyebrow">NEXT BEST ACTION</div><h2>Scan your crop</h2><p>Capture a clear leaf photo for an AI screening and weather-aware guidance.</p></div>', unsafe_allow_html=True)
+    if st.button("Start a crop scan", type="primary", use_container_width=True):
+        st.switch_page("pages/1_Farmer_Detection.py")
+
+st.write("")
+st.markdown("### Crop health overview")
 c1, c2, c3, c4 = st.columns(4)
-with c1:
-    metric_card("Reported cases", str(k["total"]), "Includes simulated demo records")
-with c2:
-    metric_card("Expert confirmed", str(k["confirmed"]), "Validated field observations")
-with c3:
-    metric_card("High / critical risk", str(k["high_risk"]), "Needs officer attention")
-with c4:
-    metric_card("Pending reviews", str(k["pending"]), "Expert-in-the-loop queue")
+with c1: metric_card("Overall crop health", f"{health_score}/100", "Based on saved scans")
+with c2: metric_card("Total scans", str(len(cases)), "AI screenings recorded")
+with c3: metric_card("Healthy", str(len(healthy)), "Continue monitoring")
+with c4: metric_card("Issues detected", str(issues), "Review recommendations")
 
-st.write("")
-st.subheader("Capabilities")
-caps = [
-    ("📷", t(L, "cap1"), "Screen a leaf or plant photo before damage spreads."),
-    ("🌦️", t(L, "cap2"), "Combine weather, crop stage, soil and local history."),
-    ("🗺️", t(L, "cap3"), "See district clusters that may be emerging hotspots."),
-    ("👨‍🌾", t(L, "cap4"), "IPM-first steps. No invented pesticide doses."),
-]
-cols = st.columns(4)
-for col, (icon, title, text) in zip(cols, caps):
-    with col:
-        st.markdown(
-            f'<div class="cg-card"><p class="cg-value">{icon} {title}</p>'
-            f'<p class="cg-muted">{text}</p></div>',
-            unsafe_allow_html=True,
-        )
-
-st.write("")
-st.subheader(t(L, "how"))
-steps = [t(L, f"step{i}") for i in range(1, 6)]
-sc = st.columns(5)
-for col, n, name in zip(sc, range(1, 6), steps):
-    with col:
-        st.markdown(
-            f'<div class="cg-step"><div class="cg-kicker">Step {n}</div>'
-            f'<div class="cg-value">{name}</div></div>',
-            unsafe_allow_html=True,
-        )
-
-st.write("")
-left, right = st.columns((1.2, 1))
+left, right = st.columns((1.1, .9), gap="large")
 with left:
-    st.markdown("### From reactive spraying to early action")
-    st.markdown(
-        """
-1. **See the disease** — image screening with confidence bands.  
-2. **Understand the risk** — weather + stage + soil + nearby cases.  
-3. **Take the right action** — IPM advisory, not a pesticide shopping list.  
-4. **Map the outbreak** — officers see district hotspots.  
-5. **Validate with experts** — AI does not replace agronomists.  
-6. **Monitor the outcome** — follow-up after treatment.
-        """
-    )
-    st.caption("Diagnosis answers *what might already be on this plant*. Risk answers *how likely it is to become a field problem now*.")
+    st.markdown("### Recent scans")
+    if cases.empty:
+        st.info("Your recent scans will appear here.")
+    else:
+        for _, row in cases.head(4).iterrows():
+            disease = str(row.get("disease_prediction") or "Unknown")
+            crop = crop_label(str(row.get("crop") or ""))
+            confidence = float(row.get("confidence") or 0) * 100
+            st.markdown(f'<div class="cg-scan-row"><div><b>{crop}</b><br><span>{disease} · {confidence:.0f}% confidence</span></div><div>{status_pill(str(row.get("risk_level") or "Low"))}</div></div>', unsafe_allow_html=True)
 with right:
-    st.markdown("### AI learning loop")
-    stats = learning_loop_stats()
-    st.metric("Total AI / demo predictions stored", stats["total_predictions"])
-    st.metric("Expert confirmed", stats["expert_confirmed"])
-    st.metric("Correction rate (rejects / reviews)", f"{stats['correction_rate']}%")
-    st.metric("Pending review", stats["pending_review"])
-    st.caption("Confirmed field observations can be used to improve future model versions. This MVP does **not** retrain automatically.")
+    st.markdown("### Weather risk insight")
+    if weather["humidity"] >= 75 or weather["rainfall_mm"] >= 5:
+        st.warning("Humid or wet conditions can increase pressure from some fungal diseases. Improve airflow and avoid unnecessary leaf wetness.")
+    else:
+        st.success("Current conditions are favorable for leaves to dry. Continue regular crop checks.")
+    st.caption("This is an informational crop-risk signal, not a diagnosis.")
 
-st.success("Open **Farmer Detection** in the sidebar to run the live demo walkthrough (Tomato · Fruiting · Nashik).")
+st.markdown("### How CropGuard works")
+steps = [("01", "Find your farm", "Use the location and weather context."), ("02", "Capture a leaf", "Use the camera or choose a photo."), ("03", "Take the next step", "Review confidence, risk and IPM guidance.")]
+cols = st.columns(3)
+for col, (num, title, body) in zip(cols, steps):
+    with col:
+        st.markdown(f'<div class="cg-card"><div class="cg-eyebrow">{num}</div><h3>{title}</h3><p>{body}</p></div>', unsafe_allow_html=True)
+
+st.caption("CropGuard is decision support. Confirm uncertain cases with a qualified agricultural expert or laboratory.")
