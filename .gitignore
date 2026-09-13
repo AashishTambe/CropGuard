@@ -18,3 +18,4 @@ Thumbs.db
 .env
 .idea/
 .vscode/
+.streamlit/secrets.toml
