@@ -60,14 +60,14 @@ python -m venv .venv
 
 ```text
 .venv\Scripts\activate
-pip install -r requirements.txt
+pip install -r requirements-streamlit.txt
 ```
 
 **Linux / macOS**
 
 ```text
 source .venv/bin/activate
-pip install -r requirements.txt
+pip install -r requirements-streamlit.txt
 ```
 
 PyTorch is optional. If `pip install torch` is slow or fails, the app still runs in **Demo Mode** (image screening uses a labelled demo predictor).
