@@ -1,0 +1,10 @@
+# Deploy only the lightweight Vercel endpoint.
+app.py
+database.py
+pages/
+services/
+utils/
+tests/
+requirements*.txt
+README.md
+.streamlit/
