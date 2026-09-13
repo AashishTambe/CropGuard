@@ -200,4 +200,4 @@ Covers demo prediction, weather fallback, risk scoring, advisory JSON, SQLite in
 
 This prototype provides decision support and does not replace diagnosis by qualified agricultural experts or laboratories. Always follow locally approved agricultural recommendations and product labels.
 
-I have added geolocation and also open ai algorithms but it need API key.
+I have added geolocation and also open ai algorithms but it needs API key.
