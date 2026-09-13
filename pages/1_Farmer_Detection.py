@@ -3,6 +3,9 @@ from __future__ import annotations
 import io, json
 import streamlit as st
 import streamlit.components.v1 as components
+
+from streamlit_geolocation import streamlit_geolocation
+from streamlit_folium import st_folium
 from PIL import Image, UnidentifiedImageError
 from database import add_referral, insert_case, list_cases
 from services.advisory import advisory_speech_text, farmer_action_list, get_advisory
@@ -22,9 +25,192 @@ crop_map={crop_label(k):k for k in crop_keys()}; loc_names=list(MAHARASHTRA_LOCA
 with st.expander("Farm details", expanded=False):
     c1,c2,c3=st.columns(3)
     with c1: crop_ui=st.selectbox("Crop",list(crop_map),index=list(crop_map).index("Tomato")); crop=crop_map[crop_ui]; variety=st.selectbox("Variety",variety_options(crop)); stage=st.selectbox("Growth stage",GROWTH_STAGES,index=GROWTH_STAGES.index("Fruiting"))
-    with c2: loc_name=st.selectbox("Location",loc_names,index=loc_names.index("Nashik")); loc=MAHARASHTRA_LOCATIONS[loc_name]; village=st.selectbox("Village",loc["villages"]); st.caption(f"{loc['district']}, {loc['state']} · location is a fallback when device location is unavailable")
-    with c3: soil_type=st.selectbox("Soil type",SOIL_TYPES); moisture=st.selectbox("Soil moisture",SOIL_MOISTURE,index=SOIL_MOISTURE.index("Wet")); ph=st.selectbox("Soil pH",SOIL_PH); drainage=st.selectbox("Drainage",DRAINAGE)
+    with c2:
+        st.markdown("**Location**")
 
+        location_mode = st.radio(
+            "How do you want to provide the farm location?",
+            [
+                "📍 Use my current location",
+                "✏️ Enter/select location manually",
+                "🗺️ Select on map"
+            ],
+            horizontal=False,
+            key="location_mode"
+        )
+
+        loc_name = None
+        location_lat = None
+        location_lon = None
+
+        # ---------------------------------------------------------
+        # OPTION 1: CURRENT GPS LOCATION
+        # ---------------------------------------------------------
+        if location_mode == "📍 Use my current location":
+
+            st.caption(
+                "Allow location access in your browser to automatically "
+                "detect your farm location."
+            )
+
+            location = streamlit_geolocation()
+
+            if location and location.get("latitude") is not None:
+
+                location_lat = float(location["latitude"])
+                location_lon = float(location["longitude"])
+
+                st.success(
+                    f"Location detected: "
+                    f"{location_lat:.5f}, {location_lon:.5f}"
+                )
+
+                # Find nearest known Maharashtra location
+                nearest_name = None
+                nearest_distance = float("inf")
+
+                for name in loc_names:
+                    candidate = MAHARASHTRA_LOCATIONS[name]
+
+                    if (
+                        isinstance(candidate, dict)
+                        and "lat" in candidate
+                        and ("lon" in candidate or "longitude" in candidate)
+                    ):
+                        candidate_lon = candidate.get(
+                            "lon",
+                            candidate.get("longitude")
+                        )
+
+                        distance = (
+                            (location_lat - float(candidate["lat"])) ** 2
+                            + (location_lon - float(candidate_lon)) ** 2
+                        )
+
+                        if distance < nearest_distance:
+                            nearest_distance = distance
+                            nearest_name = name
+
+                if nearest_name:
+                    loc_name = nearest_name
+                    st.info(f"Nearest supported location: **{loc_name}**")
+
+            else:
+                st.warning(
+                    "Location access was not provided. "
+                    "Please allow location permission or choose another option."
+                )
+
+        # ---------------------------------------------------------
+        # OPTION 2: MANUAL LOCATION
+        # ---------------------------------------------------------
+        elif location_mode == "✏️ Enter/select location manually":
+
+            loc_name = st.selectbox(
+                "Select your location",
+                loc_names,
+                index=loc_names.index("Nashik")
+                if "Nashik" in loc_names else 0,
+                key="manual_location"
+            )
+
+        # ---------------------------------------------------------
+        # OPTION 3: MAP
+        # ---------------------------------------------------------
+        else:
+
+            st.caption(
+                "Click on the map to select your farm location."
+            )
+
+            import folium
+
+            default_lat = 19.7515
+            default_lon = 75.7139
+
+            location_map = folium.Map(
+                location=[default_lat, default_lon],
+                zoom_start=7
+            )
+
+            folium.Marker(
+                [default_lat, default_lon],
+                tooltip="Select your farm location"
+            ).add_to(location_map)
+
+            map_result = st_folium(
+                location_map,
+                height=350,
+                width=None,
+                key="farm_location_map"
+            )
+
+            if (
+                map_result
+                and map_result.get("last_clicked")
+            ):
+                location_lat = float(
+                    map_result["last_clicked"]["lat"]
+                )
+                location_lon = float(
+                    map_result["last_clicked"]["lng"]
+                )
+
+                st.success(
+                    f"Selected coordinates: "
+                    f"{location_lat:.5f}, {location_lon:.5f}"
+                )
+
+                # Find nearest supported Maharashtra location
+                nearest_name = None
+                nearest_distance = float("inf")
+
+                for name in loc_names:
+                    candidate = MAHARASHTRA_LOCATIONS[name]
+
+                    if (
+                        isinstance(candidate, dict)
+                        and "lat" in candidate
+                        and ("lon" in candidate or "longitude" in candidate)
+                    ):
+                        candidate_lon = candidate.get(
+                            "lon",
+                            candidate.get("longitude")
+                        )
+
+                        distance = (
+                            (location_lat - float(candidate["lat"])) ** 2
+                            + (location_lon - float(candidate_lon)) ** 2
+                        )
+
+                        if distance < nearest_distance:
+                            nearest_distance = distance
+                            nearest_name = name
+
+                if nearest_name:
+                    loc_name = nearest_name
+                    st.info(
+                        f"Nearest supported location: **{loc_name}**"
+                    )
+    with c3: soil_type=st.selectbox("Soil type",SOIL_TYPES); moisture=st.selectbox("Soil moisture",SOIL_MOISTURE,index=SOIL_MOISTURE.index("Wet")); ph=st.selectbox("Soil pH",SOIL_PH); drainage=st.selectbox("Drainage",DRAINAGE)
+# Resolve the selected location into the existing location dictionary
+if loc_name and loc_name in MAHARASHTRA_LOCATIONS:
+    loc = MAHARASHTRA_LOCATIONS[loc_name]
+
+    # Keep the existing pipeline compatible
+    if location_lat is not None:
+        loc = dict(loc)
+        loc["lat"] = location_lat
+
+    if location_lon is not None:
+        loc = dict(loc)
+        loc["lon"] = location_lon
+
+    district = loc_name
+else:
+    st.warning("Please select or provide a valid farm location.")
+    st.stop()
+    village = loc_name
 st.markdown("### 1. Capture a leaf photo")
 photo=st.camera_input("Use your phone camera", help="Place the affected leaf inside the frame. Use good lighting and avoid blurry images.")
 with st.expander("Use a photo from your device instead"):
@@ -86,3 +272,4 @@ with b3:
     if st.button("Start another scan",use_container_width=True): st.session_state.last_result=None; st.rerun()
 if band=="low":
     if st.button("Create lab referral"): st.info("Save the scan first to create a referral record.")
+
