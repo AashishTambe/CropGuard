@@ -230,7 +230,7 @@ if st.button("Analyze crop", type="primary", use_container_width=True):
         weather=fetch_weather(float(loc["lat"]),float(loc["lon"]),loc["district"]); progress.update(label="Analysis complete",state="complete",expanded=False)
     soil={"soil_type":soil_type,"moisture":moisture,"ph":ph,"drainage":drainage}; risk=assess_risk(crop=crop,disease_id=pred["disease_id"],disease_name=pred["disease"],growth_stage=stage,variety=variety,weather=weather,soil=soil,cases=list_cases(),district=loc["district"],kind=pred.get("kind") or class_kind(crop,pred["disease_id"]))
     fname=save_upload(source.getvalue(),suffix=".png" if getattr(source,"name","").lower().endswith(".png") else ".jpg"); band=confidence_band(pred["confidence"])
-    st.session_state.last_result={"image_name":fname,"quality":quality,"pred":pred,"weather":weather,"risk":risk,"crop":crop,"crop_ui":crop_ui,"variety":variety,"stage":stage,"village":village,"district":loc["district"],"state":loc["state"],"lat":loc["lat"],"lon":loc["lon"],"soil":soil,"status_suggest":"pending_review" if band=="low" or risk["level"] in ("High","Critical") else "suspected","band":band}
+    st.session_state.last_result={"image_name":fname,"quality":quality,"pred":pred,"weather":weather,"risk":risk,"crop":crop,"crop_ui":crop_ui,"variety":variety,"stage":stage,"village":loc.get("village", ""),"district":loc["district"],"state":loc["state"],"lat":loc["lat"],"lon":loc["lon"],"soil":soil,"status_suggest":"pending_review" if band=="low" or risk["level"] in ("High","Critical") else "suspected","band":band}
     st.rerun()
 
 result=st.session_state.get("last_result")
