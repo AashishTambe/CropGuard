@@ -40,19 +40,20 @@ div[data-testid="stSidebar"] {background:#edf3e8;}
 
 def inject_css() -> None: st.markdown(CSS, unsafe_allow_html=True)
 def init_session() -> None:
-    init_db(); st.session_state.setdefault("lang", "en"); st.session_state.setdefault("demo_mode", True); st.session_state.setdefault("last_result", None); st.session_state.setdefault("weather_source", "demo")
+    init_db(); st.session_state.setdefault("lang", "en"); st.session_state.setdefault("language", st.session_state.lang); st.session_state.setdefault("demo_mode", True); st.session_state.setdefault("last_result", None); st.session_state.setdefault("weather_source", "demo")
 def lang() -> str: return st.session_state.get("lang", "en")
-def sidebar_chrome() -> None:
+def sidebar_chrome(show_disclaimer: bool = True) -> None:
     init_session(); inject_css(); L=lang()
     with st.sidebar:
         st.markdown("## CropGuard")
-        st.caption(t(L,"subtitle"))
-        choice=st.radio("Language / भाषा", options=list(LANGS.keys()), format_func=lambda x: LANGS[x], index=list(LANGS.keys()).index(st.session_state.lang), horizontal=True)
+        choice=st.radio("Language / भाषा", options=list(LANGS.keys()), format_func=lambda x: LANGS[x], key="language", horizontal=True)
         st.session_state.lang=choice; L=choice
+        st.caption(t(L,"subtitle"))
         st.markdown(f'<span class="cg-pill pill-demo">{t(L,"demo_on")}</span>', unsafe_allow_html=True)
-        st.divider(); st.page_link("app.py", label="Home"); st.page_link("pages/1_Farmer_Detection.py", label="Scan crop"); st.page_link("pages/2_Risk_Analysis.py", label="Risk analysis"); st.page_link("pages/3_Expert_Review.py", label="Expert review"); st.page_link("pages/4_Surveillance_Dashboard.py", label="Surveillance")
-        st.divider(); det=get_detector(); k=kpi_counts(); st.caption(f"AI: {det.status_label()}"); st.caption(f"Cases: {k['total']} · Pending: {k['pending']}")
-    st.caption(DISCLAIMER)
+        st.divider(); st.page_link("app.py", label=t(L,"nav_home")); st.page_link("pages/1_Farmer_Detection.py", label=t(L,"nav_farmer")); st.page_link("pages/2_Risk_Analysis.py", label=t(L,"nav_risk")); st.page_link("pages/3_Expert_Review.py", label=t(L,"nav_expert")); st.page_link("pages/4_Surveillance_Dashboard.py", label=t(L,"nav_dashboard"))
+        st.divider(); det=get_detector(); k=kpi_counts(); st.caption(f"{t(L,'ai_ready')}: {det.status_label()}"); st.caption(f"Cases: {k['total']} · Pending: {k['pending']}")
+    if show_disclaimer:
+        st.caption(DISCLAIMER)
 def status_pill(level: str) -> str:
     lv=(level or "").lower(); cls="pill-ok" if lv not in ("moderate","medium","high","critical") else {"moderate":"pill-warn","medium":"pill-warn","high":"pill-high","critical":"pill-crit"}[lv]; return f'<span class="cg-pill {cls}">{level}</span>'
 def metric_card(title: str, value: str, sub: str = "") -> None:

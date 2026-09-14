@@ -6,15 +6,13 @@ from datetime import datetime
 import streamlit as st
 
 from database import kpi_counts, list_cases
-from services.i18n import t
 from services.weather import demo_weather
 from utils.helpers import crop_label
 from utils.ui import inject_css, lang, metric_card, sidebar_chrome, status_pill
 
 st.set_page_config(page_title="CropGuard · Smart crop protection", page_icon="🌱", layout="wide", initial_sidebar_state="expanded")
-sidebar_chrome()
+sidebar_chrome(show_disclaimer=False)
 inject_css()
-L = lang()
 
 cases = list_cases()
 healthy = cases[cases["disease_id"].astype(str).str.contains("healthy", case=False, na=False)] if not cases.empty else cases
@@ -39,7 +37,6 @@ st.markdown(
     f'<p>See your crop health at a glance and scan a leaf when something looks different.</p></div>',
     unsafe_allow_html=True
 )
-st.info(t(L, "simulated"))
 
 hero_left, hero_right = st.columns((1.35, 1), gap="large")
 with hero_left:
