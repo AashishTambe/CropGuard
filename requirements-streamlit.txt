@@ -10,4 +10,3 @@ Pillow>=10.0.0
 openai
 streamlit
 streamlit-geolocation-0.0.10
-

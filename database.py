@@ -1,7 +1,9 @@
 """SQLite storage for cases, expert reviews, follow-ups, and lab referrals."""
 from __future__ import annotations
 
+import hashlib
 import json
+import secrets
 import sqlite3
 from pathlib import Path
 from typing import Any
@@ -11,6 +13,35 @@ import pandas as pd
 from utils.helpers import DATA_DIR, utc_now
 
 DB_PATH = DATA_DIR / "cropguard.db"
+
+
+def hash_password(password: str) -> str:
+    if not password:
+        raise ValueError("Password cannot be empty.")
+    salt = secrets.token_hex(16)
+    digest = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode("utf-8"),
+        salt.encode("utf-8"),
+        200000,
+    )
+    return f"pbkdf2_sha256${salt}${digest.hex()}"
+
+
+def verify_password(password: str, stored_hash: str | None) -> bool:
+    if not password or not stored_hash or not stored_hash.startswith("pbkdf2_sha256$"):
+        return False
+    try:
+        _, salt, expected_hex = stored_hash.split("$", 2)
+    except ValueError:
+        return False
+    digest = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode("utf-8"),
+        salt.encode("utf-8"),
+        200000,
+    )
+    return digest.hex() == expected_hex
 
 
 def connect() -> sqlite3.Connection:
@@ -76,10 +107,77 @@ def init_db() -> None:
             notes TEXT,
             created_at TEXT
         );
+        CREATE TABLE IF NOT EXISTS users (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT,
+            phone TEXT,
+            password_hash TEXT NOT NULL,
+            role TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT 'ACTIVE',
+            created_at TEXT,
+            updated_at TEXT
+        );
+        CREATE TABLE IF NOT EXISTS farmer_profiles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL UNIQUE,
+            full_name TEXT,
+            age INTEGER,
+            gender TEXT,
+            farmer_type TEXT,
+            farmer_category TEXT,
+            state TEXT,
+            district TEXT,
+            taluka TEXT,
+            village TEXT,
+            address TEXT,
+            pin_code TEXT,
+            created_at TEXT,
+            updated_at TEXT,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        );
+        CREATE TABLE IF NOT EXISTS farms (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            user_id INTEGER NOT NULL,
+            farm_name TEXT NOT NULL,
+            farm_id TEXT NOT NULL UNIQUE,
+            state TEXT,
+            district TEXT,
+            taluka TEXT,
+            village TEXT,
+            farm_address TEXT,
+            survey_number TEXT,
+            land_area REAL,
+            land_unit TEXT,
+            ownership_type TEXT,
+            soil_type TEXT,
+            irrigation_type TEXT,
+            main_crop TEXT,
+            crop_variety TEXT,
+            sowing_date TEXT,
+            expected_harvest_date TEXT,
+            latitude REAL,
+            longitude REAL,
+            image_path TEXT,
+            created_at TEXT,
+            updated_at TEXT,
+            FOREIGN KEY(user_id) REFERENCES users(id)
+        );
+        CREATE TABLE IF NOT EXISTS farm_crops (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            farm_id INTEGER NOT NULL,
+            crop_name TEXT NOT NULL,
+            crop_variety TEXT,
+            sowing_date TEXT,
+            expected_harvest_date TEXT,
+            created_at TEXT,
+            FOREIGN KEY(farm_id) REFERENCES farms(id)
+        );
         """
     )
     conn.commit()
     _seed_if_empty(conn)
+    seed_demo_users()
     conn.close()
 
 
@@ -137,6 +235,148 @@ def _seed_if_empty(conn: sqlite3.Connection) -> None:
             ),
         )
     conn.commit()
+
+
+def seed_demo_users() -> None:
+    conn = connect()
+    existing = conn.execute("SELECT COUNT(*) AS n FROM users").fetchone()["n"]
+    if existing > 0:
+        conn.close()
+        return
+
+    now = utc_now()
+    user_rows = [
+        (
+            "Farmer Demo",
+            "",
+            "9876543210",
+            hash_password("Farmer@123"),
+            "FARMER",
+            "ACTIVE",
+            now,
+            now,
+        ),
+        (
+            "Advisor Demo",
+            "advisor@cropguard.demo",
+            "",
+            hash_password("Advisor@123"),
+            "ADVISOR",
+            "ACTIVE",
+            now,
+            now,
+        ),
+        (
+            "Admin Demo",
+            "admin@cropguard.demo",
+            "",
+            hash_password("Admin@123"),
+            "ADMIN",
+            "ACTIVE",
+            now,
+            now,
+        ),
+    ]
+    conn.executemany(
+        """
+        INSERT INTO users (name, email, phone, password_hash, role, status, created_at, updated_at)
+        VALUES (?,?,?,?,?,?,?,?)
+        """,
+        user_rows,
+    )
+    conn.commit()
+
+    farmer_user = conn.execute("SELECT id FROM users WHERE role = 'FARMER' AND phone = '9876543210'").fetchone()
+    advisor_user = conn.execute("SELECT id FROM users WHERE role = 'ADVISOR' AND email = 'advisor@cropguard.demo'").fetchone()
+    admin_user = conn.execute("SELECT id FROM users WHERE role = 'ADMIN' AND email = 'admin@cropguard.demo'").fetchone()
+
+    if farmer_user:
+        conn.execute(
+            """
+            INSERT INTO farmer_profiles (user_id, full_name, age, gender, farmer_type, farmer_category, state, district, taluka, village, address, pin_code, created_at, updated_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """,
+            (
+                farmer_user["id"],
+                "Farmer Demo",
+                42,
+                "Male",
+                "Smallholder",
+                "General",
+                "Maharashtra",
+                "Nashik",
+                "Niphad",
+                "Pimpalgaon",
+                "Demo farm address",
+                "422001",
+                now,
+                now,
+            ),
+        )
+        conn.execute(
+            """
+            INSERT INTO farms (user_id, farm_name, farm_id, state, district, taluka, village, farm_address, survey_number, land_area, land_unit, ownership_type, soil_type, irrigation_type, main_crop, crop_variety, sowing_date, expected_harvest_date, latitude, longitude, image_path, created_at, updated_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """,
+            (
+                farmer_user["id"],
+                "Demo Farm 1",
+                "FG-1001",
+                "Maharashtra",
+                "Nashik",
+                "Niphad",
+                "Pimpalgaon",
+                "Demo farm address 1",
+                "42/5A",
+                4.5,
+                "acre",
+                "Owned",
+                "Black cotton",
+                "Drip",
+                "Tomato",
+                "Hybrid",
+                "2026-06-15",
+                "2026-10-05",
+                19.9975,
+                73.7898,
+                "",
+                now,
+                now,
+            ),
+        )
+        conn.execute(
+            """
+            INSERT INTO farms (user_id, farm_name, farm_id, state, district, taluka, village, farm_address, survey_number, land_area, land_unit, ownership_type, soil_type, irrigation_type, main_crop, crop_variety, sowing_date, expected_harvest_date, latitude, longitude, image_path, created_at, updated_at)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """,
+            (
+                farmer_user["id"],
+                "Demo Farm 2",
+                "FG-1002",
+                "Maharashtra",
+                "Nashik",
+                "Niphad",
+                "Pimpalgaon",
+                "Demo farm address 2",
+                "82/8",
+                6.2,
+                "acre",
+                "Leased",
+                "Red",
+                "Sprinkler",
+                "Cotton",
+                "Local",
+                "2026-07-01",
+                "2026-11-18",
+                20.0123,
+                73.8100,
+                "",
+                now,
+                now,
+            ),
+        )
+    conn.commit()
+    conn.close()
 
 
 def _level(score: int) -> str:

@@ -9,12 +9,15 @@ from streamlit_folium import st_folium
 from PIL import Image, UnidentifiedImageError
 from database import add_referral, insert_case, list_cases
 from services.advisory import advisory_speech_text, farmer_action_list, get_advisory
+from services.auth import require_role
 from services.disease_detection import get_detector
 from services.i18n import t, translate_disease
 from services.risk_prediction import assess_risk
 from services.weather import fetch_weather, recent_rain_label
 from utils.helpers import DRAINAGE, GROWTH_STAGES, MAHARASHTRA_LOCATIONS, SOIL_MOISTURE, SOIL_PH, SOIL_TYPES, class_kind, confidence_band, crop_keys, crop_label, image_quality_report, new_case_id, save_upload, variety_options
 from utils.ui import inject_css, lang, metric_card, sidebar_chrome, status_pill
+
+require_role("FARMER")
 
 st.set_page_config(page_title="CropGuard · Scan crop", page_icon="🌱", layout="wide")
 sidebar_chrome(); inject_css(); L=lang()

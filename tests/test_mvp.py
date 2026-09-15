@@ -12,6 +12,7 @@ from PIL import Image
 
 import database as db
 from services.advisory import farmer_action_list, get_advisory
+from services.auth import authenticate_user, verify_phone, verify_email
 from services.disease_detection import DiseaseDetector
 from services.geospatial import detect_hotspots
 from services.i18n import t
@@ -135,6 +136,25 @@ def test_i18n() -> None:
     assert t("mr", "submit_case")
 
 
+def test_authentication_seed_users() -> None:
+    db.init_db()
+    farmer = authenticate_user("FARMER", "9876543210", "Farmer@123")
+    advisor = authenticate_user("ADVISOR", "advisor@cropguard.demo", "Advisor@123")
+    admin = authenticate_user("ADMIN", "admin@cropguard.demo", "Admin@123")
+    assert farmer and farmer["role"] == "FARMER"
+    assert advisor and advisor["role"] == "ADVISOR"
+    assert admin and admin["role"] == "ADMIN"
+    assert authenticate_user("FARMER", "9876543210", "wrong-pass") is None
+    assert authenticate_user("FARMER", "9999999999", "Farmer@123") is None
+
+
+def test_input_validation() -> None:
+    assert verify_phone("9876543210") is True
+    assert verify_phone("1234567890") is False
+    assert verify_email("advisor@cropguard.demo") is True
+    assert verify_email("no-at") is False
+
+
 def main() -> int:
     tests = [
         test_demo_prediction,
@@ -144,6 +164,8 @@ def main() -> int:
         test_database_roundtrip,
         test_hotspots,
         test_i18n,
+        test_authentication_seed_users,
+        test_input_validation,
     ]
     failed = 0
     for fn in tests:

@@ -38,22 +38,103 @@ div[data-testid="stSidebar"] {background:#edf3e8;}
 </style>
 """
 
+PUBLIC_PAGE_CSS = """
+<style>
+[data-testid="stSidebar"] { display: none !important; }
+section[data-testid="stSidebar"], .css-1d391kg, .css-18e3th9 { display: none !important; }
+</style>
+"""
+
+
 def inject_css() -> None: st.markdown(CSS, unsafe_allow_html=True)
+
+def inject_public_layout_css() -> None:
+    st.markdown(PUBLIC_PAGE_CSS, unsafe_allow_html=True)
+
+
 def init_session() -> None:
     init_db(); st.session_state.setdefault("lang", "en"); st.session_state.setdefault("demo_mode", True); st.session_state.setdefault("last_result", None); st.session_state.setdefault("weather_source", "demo")
+
+
 def lang() -> str: return st.session_state.get("lang", "en")
+
+
+def get_role_navigation(role: str):
+    role = (role or "").upper()
+    if role == "FARMER":
+        return [
+            ("pages/10_Farmer_Dashboard.py", "🏠 Dashboard"),
+            ("pages/10_Farmer_Dashboard.py", "🌾 My Farms"),
+            ("pages/2_Risk_Analysis.py", "🌱 Crop Health"),
+            ("pages/1_Farmer_Detection.py", "🔬 Disease Detection"),
+            ("pages/1_Farmer_Detection.py", "🌦 Weather"),
+            ("pages/10_Farmer_Dashboard.py", "⚠ Alerts"),
+            ("pages/10_Farmer_Dashboard.py", "💡 Advisory"),
+            ("pages/10_Farmer_Dashboard.py", "📊 Reports"),
+            ("pages/10_Farmer_Dashboard.py", "👤 Profile"),
+            ("pages/0_Login.py", "🚪 Logout"),
+        ]
+    if role == "ADVISOR":
+        return [
+            ("pages/20_Advisor_Dashboard.py", "🏠 Dashboard"),
+            ("pages/20_Advisor_Dashboard.py", "👨‍🌾 Farmers"),
+            ("pages/20_Advisor_Dashboard.py", "🌾 Farms"),
+            ("pages/2_Risk_Analysis.py", "🌱 Crop Health"),
+            ("pages/3_Expert_Review.py", "⚠ Disease Cases"),
+            ("pages/20_Advisor_Dashboard.py", "💡 Advisories"),
+            ("pages/4_Surveillance_Dashboard.py", "📊 Reports"),
+            ("pages/20_Advisor_Dashboard.py", "👤 Profile"),
+            ("pages/0_Login.py", "🚪 Logout"),
+        ]
+    if role == "ADMIN":
+        return [
+            ("pages/30_Admin_Dashboard.py", "🏠 Dashboard"),
+            ("pages/30_Admin_Dashboard.py", "👨‍🌾 Farmers"),
+            ("pages/30_Admin_Dashboard.py", "👨‍🔬 Advisors"),
+            ("pages/30_Admin_Dashboard.py", "🌾 Farms"),
+            ("pages/30_Admin_Dashboard.py", "🌱 Crops"),
+            ("pages/3_Expert_Review.py", "⚠ Disease Cases"),
+            ("pages/30_Admin_Dashboard.py", "💡 Advisories"),
+            ("pages/4_Surveillance_Dashboard.py", "📊 Reports"),
+            ("pages/30_Admin_Dashboard.py", "📈 Analytics"),
+            ("pages/30_Admin_Dashboard.py", "👥 User Management"),
+            ("pages/30_Admin_Dashboard.py", "📋 Audit Logs"),
+            ("pages/30_Admin_Dashboard.py", "⚙ Settings"),
+            ("pages/30_Admin_Dashboard.py", "👤 Profile"),
+            ("pages/0_Login.py", "🚪 Logout"),
+        ]
+    return []
+
+
 def sidebar_chrome() -> None:
     init_session(); inject_css(); L=lang()
+    user = st.session_state.get("auth_user")
+    if not user:
+        inject_public_layout_css()
+        return
+
+    role = str(user.get("role", "")).upper()
     with st.sidebar:
         st.markdown("## CropGuard")
-        st.caption(t(L,"subtitle"))
-        choice=st.radio("Language / भाषा", options=list(LANGS.keys()), format_func=lambda x: LANGS[x], index=list(LANGS.keys()).index(st.session_state.lang), horizontal=True)
-        st.session_state.lang=choice; L=choice
-        st.markdown(f'<span class="cg-pill pill-demo">{t(L,"demo_on")}</span>', unsafe_allow_html=True)
-        st.divider(); st.page_link("app.py", label="Home"); st.page_link("pages/1_Farmer_Detection.py", label="Scan crop"); st.page_link("pages/2_Risk_Analysis.py", label="Risk analysis"); st.page_link("pages/3_Expert_Review.py", label="Expert review"); st.page_link("pages/4_Surveillance_Dashboard.py", label="Surveillance")
-        st.divider(); det=get_detector(); k=kpi_counts(); st.caption(f"AI: {det.status_label()}"); st.caption(f"Cases: {k['total']} · Pending: {k['pending']}")
+        st.caption(f"{role} Workspace")
+        st.divider()
+        for target, label in get_role_navigation(role):
+            if label == "🚪 Logout":
+                if st.button(label, key=f"logout_{role}", use_container_width=True):
+                    st.session_state.pop("auth_user", None)
+                    st.session_state.pop("auth_token", None)
+                    st.session_state.pop("user_role", None)
+                    st.switch_page("pages/0_Login.py")
+                continue
+            st.page_link(target, label=label)
+        st.divider()
+        det = get_detector(); k = kpi_counts(); st.caption(f"AI: {det.status_label()}"); st.caption(f"Cases: {k['total']} · Pending: {k['pending']}")
     st.caption(DISCLAIMER)
+
+
 def status_pill(level: str) -> str:
     lv=(level or "").lower(); cls="pill-ok" if lv not in ("moderate","medium","high","critical") else {"moderate":"pill-warn","medium":"pill-warn","high":"pill-high","critical":"pill-crit"}[lv]; return f'<span class="cg-pill {cls}">{level}</span>'
+
+
 def metric_card(title: str, value: str, sub: str = "") -> None:
     st.markdown(f'<div class="cg-card"><div class="cg-kicker">{title}</div><div class="cg-value">{value}</div><div class="cg-muted">{sub}</div></div>', unsafe_allow_html=True)
